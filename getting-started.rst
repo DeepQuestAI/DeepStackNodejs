@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Getting Started with DeepStack!
+Getting Started with DeepStack
 ===============================
 
 DeepStack is distributed as a docker image. In this tutorial, we shall 
