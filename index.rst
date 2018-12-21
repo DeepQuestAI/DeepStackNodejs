@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to DeepStack's documentation!
-=====================================
+Welcome to DeepStack's documentation
+======================================
 
 DeepStack is an AI server that empowers every developer in the world to 
 easily build state-of-the-art AI systems both on premise and in the cloud.
@@ -62,7 +62,7 @@ Once DeepStack is installed and running, you can run the example code above.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: APIS:
 
    getting-started
    facerecognition
