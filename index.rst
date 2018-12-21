@@ -12,6 +12,8 @@ The promises of Artificial Intelligence are huge but becoming a machine learning
 engineer is hard. DeepStack runs on the docker platform and can be used from any
 programming language.
 
+DeepStack is developed by `DeepQuest AI <https://deepquestai.com />`_
+
 .. figure:: image.jpg
    :align:  center 
 
@@ -82,10 +84,4 @@ Intel Core i5 processor
 
 Linux or Windows 10 Pro
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+**NOTE THAT DeepStack is about 2 GB in SIZE**
