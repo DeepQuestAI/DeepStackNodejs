@@ -9,6 +9,22 @@ Scene Recognition
 The traffic recognition api classifies an image into one of 365 scenes
 
 
+To use this API, you need to set **VISION-SCENE=True** when starting DeepStack ::
+
+    sudo docker run -e VISION-SCENE=True -v localstorage:/datastore \
+    -p 80:5000 deepquestai/deepstack
+
+If using the GPU Version, run ::
+
+    sudo docker run --rm --runtime=nvidia -e VISION-SCENE=True -v localstorage:/datastore \
+    -p 80:5000 deepquestai/deepstack:gpu
+
+*Note also that you can have multiple endpoints activated, for example, both traffic and scene recognition are activated below* ::
+
+    sudo docker run -e VISION-SCENE=True  -e VISION-TRAFFIC=True -v localstorage:/datastore \
+    -p 80:5000 deepquestai/deepstack
+
+
 **Example**
 
 .. figure:: test-image5.jpg
@@ -27,10 +43,10 @@ The traffic recognition api classifies an image into one of 365 scenes
 
         response = JSON.parse(body)
         console.log(response)
-
     })
 
 Result ::
 
-    { predictions: [ { confidence: 73.73981475830078, label: 'conference_room' } ],
-  success: true }
+    { success: true, label: 'conference_room', confidence: 73.739815 }
+
+

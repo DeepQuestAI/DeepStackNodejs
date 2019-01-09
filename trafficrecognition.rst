@@ -6,14 +6,35 @@
 Traffic Recognition
 ====================
 
-The traffic recognition api classifies an image into one of the following ::
+The traffic recognition API classifies an image into one of the following ::
+
     Sparse traffic
+
     Dense traffic
+
     Accident
+
     Fire
 
 With this, from images of live traffic, you can tell if an accident has occured,
-if there is traffic gridlock or if a vehicle is on fire.
+if their is traffic gridlock or if a vehicle is on fire.
+
+
+To use this API, you need to set **VISION-TRAFFIC=True** when starting DeepStack ::
+
+    sudo docker run -e VISION-TRAFFIC=True -v localstorage:/datastore \
+    -p 80:5000 deepquestai/deepstack
+
+If using the GPU Version, run ::
+
+    sudo docker run --rm --runtime=nvidia -e VISION-TRAFFIC=True -v localstorage:/datastore \
+    -p 80:5000 deepquestai/deepstack:gpu
+
+*Note also that you can have multiple endpoints activated, for example, both traffic and object detection are activated below* ::
+
+    sudo docker run -e VISION-TRAFFIC=True  -e VISION-DETECTION=True -v localstorage:/datastore \
+    -p 80:5000 deepquestai/deepstack
+
 
 
 **Example**
@@ -34,10 +55,9 @@ if there is traffic gridlock or if a vehicle is on fire.
 
         response = JSON.parse(body)
         console.log(response)
-
     })
 
 Result ::
 
-    { predictions: [ { confidence: 94.88775730133057, label: 'accident' } ],
-  success: true }
+    { success: true, label: 'accident', confidence: 94.88776 }
+

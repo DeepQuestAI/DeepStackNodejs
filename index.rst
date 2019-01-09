@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to DeepStack's documentation
-======================================
+DeepStack Beta
+===============
 
 DeepStack is an AI server that empowers every developer in the world to 
 easily build state-of-the-art AI systems both on premise and in the cloud.
@@ -15,13 +15,15 @@ programming language.
 You can learn more about Docker on `Docker's Website <https://docker.io />`_
 Visit  `Docker Getting Started <https://docs.docker.com/get-started />`_ for instructions on setting up and using Docker for the first time.
 
-DeepStack is developed by `DeepQuest AI <https://deepquestai.com />`_
+
+DeepStack is developed and maintained by `DeepQuest AI <https://deepquestai.com />`_
+-------------------------------------------------------------------------------------
 
 .. figure:: image.jpg
    :align:  center 
 
 Below, using DeepStack we attempt to classify the scene of the above image ::
-
+    
     const request = require("request")
     const fs = require("fs")
 
@@ -30,23 +32,20 @@ Below, using DeepStack we attempt to classify the scene of the above image ::
     var form = {"image":image_stream}
 
     request.post({url:"http://localhost:80/v1/vision/scene", formData:form},function(err,res,body){
-    
-        response = JSON.parse(body)
-        console.log(response)
-    
+
+    response = JSON.parse(body)
+    console.log(response)
+
     })
-    
 
 **Result**  ::
 
-    { predictions: [ { confidence: 63.377845287323, label: 'highway' } ],
-  success: true }
-
-The example above uses the `request package <https://github.com/request/request />`_
+    { success: true, label: 'highway', confidence: 63.377846 }
 
 You simply send in an image by POST and deepstack returns a JSON response detailing the label of 
 the image as well as the confidence of the prediction on a scale of 1 - 100.
 
+The example above uses the `request package <https://github.com/request/request />`_
 
 **Installing DeepStack**
 
@@ -55,17 +54,38 @@ to run this, you can install DeepStack and start it with a single docker command
 
 If you are not familiar with docker, you can learn how to use Docker here.
 
-To install and run DeepStack on Docker, simply run the docker command below ::
+To install DeepStack on Docker, simply run the docker command below ::
 
-    docker run -p 80:5000 deepquestai/deepstack
+    docker pull deepquestai/deepstack
 
-The first time you run this command, DeepStack will be downloaded. Subsequent runs will not require a re-download
+Once installed, you can run DeepStack with the command below ::
 
-Once DeepStack is installed and running, you can run the example code above.
+    docker run -e VISION-SCENE=True -v localstorage:/datastore -p 80:5000 deepquestai/deepstack
+
+The command above runs deepstack with the scene recognition activated, once this is running, you can run the example above.
+
+**GPU Accelerated Version**
+
+DeepStack runs many times faster on machines with NVIDIA GPUS, to install and use the GPU Version, 
+read :ref:`gpuinstall`
+
+**HARDWARE AND SOFTWARE REQUIREMENTS**
+
+DeepStack runs on any platform with Docker installed.
+However, for best performance, the following minimum requirements are highly recommended.
+
+* Intel Core i5 processor
+
+* 8 GB RAM
+
+* 10 GB Disk Space
+
+* Linux or Windows 10 Pro
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: APIS:
+   :caption: Tutorials:
 
    getting-started
    facerecognition
@@ -73,18 +93,14 @@ Once DeepStack is installed and running, you can run the example code above.
    objectdetection
    trafficrecognition
    scenerecognition
+   gpuinstall
+   releasenotes
 
-**HARDWARE AND SOFTWARE REQUIREMENTS**
 
-DeepStack runs on any platform with Docker installed.
-However, for best performance, the following are minimum requirements are highly recommended.
 
-Intel Core i5 processor
+Indices and tables
+==================
 
-8 GB RAM
-
-10 GB Disk Space
-
-Linux or Windows 10 Pro
-
-**NOTE THAT DeepStack is about 2 GB in SIZE**
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

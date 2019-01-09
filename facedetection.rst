@@ -6,10 +6,10 @@
 Face Detection
 ==============
 
-The face detection api detects faces and returns their coordinates as well as the gender.
-It functions similarly to the face recognition api except that it does not 
+The face detection API detects faces and returns their coordinates as well as the gender.
+It functions similarly to the face recognition API except that it does not 
 perform recognition. 
-Also note that the recognition api does not return gender predictions.
+Also note that the recognition API does not return gender predictions.
 
 **Example**
 
@@ -36,7 +36,6 @@ Also note that the recognition api does not return gender predictions.
         }
 
         console.log(response)
-
     })
 
 Result ::
@@ -45,31 +44,81 @@ Result ::
     male
     male
     female
-    { predictions: 
-        [ { gender: 'female',
-            y_max: 303,
-            y_min: 174,
-            confidence: 100,
-            x_min: 534,
-            x_max: 629 },
-        { gender: 'male',
-            y_max: 275,
-            y_min: 146,
-            confidence: 99,
-            x_min: 616,
-            x_max: 711 },
-        { gender: 'male',
-            y_max: 259,
-            y_min: 147,
-            confidence: 98,
-            x_min: 729,
-            x_max: 811 },
-        { gender: 'female',
-            y_max: 290,
-            y_min: 190,
-            confidence: 99,
-            x_min: 471,
-            x_max: 549 } ],
-    success: true }
+    { success: true,
+    predictions: 
+    [ { confidence: 99,
+       gender: 'female',
+       y_min: 174,
+       x_min: 534,
+       y_max: 303,
+       x_max: 629 },
+     { confidence: 66,
+       gender: 'male',
+       y_min: 146,
+       x_min: 616,
+       y_max: 275,
+       x_max: 711 },
+     { confidence: 99,
+       gender: 'male',
+       y_min: 147,
+       x_min: 729,
+       y_max: 259,
+       x_max: 811 },
+     { confidence: 99,
+       gender: 'female',
+       y_min: 190,
+       x_min: 471,
+       y_max: 290,
+       x_max: 549 } ] }
 
-**THE RETURNED FACE COORDINATES CAN BE USED TO EXTRACT THE FACES**
+Using the face coordinates, we shall use the `Easy Image <https://www.npmjs.com/package/easyimage />`_ library to extract the faces and save them
+::
+
+    const request = require("request")
+    const fs = require("fs")
+    const easyimage = require("easyimage")
+
+    image_stream = fs.createReadStream("family.jpg")
+
+    var form = {"image":image_stream}
+
+    request.post({url:"http://localhost:80/v1/vision/face", formData:form},function(err,res,body){
+
+        response = JSON.parse(body)
+        predictions = response["predictions"]
+        for(var i =0; i < predictions.length; i++){
+        
+            pred = predictions[i]
+            gender = pred["gender"]
+            y_min = pred["y_min"]
+            x_min = pred["x_min"]
+            y_max = pred["y_max"]
+            x_max = pred["x_max"]
+       
+            easyimage.crop(
+                {
+                src: "family.jpg",
+                dst: i.toString() + "_" + gender+"_.jpg",
+                x: x_min,
+                cropwidth: x_max - x_min,
+                y: y_min,
+                cropheight: y_max - y_min,
+                }
+            )
+
+        }
+    })
+
+Result
+
+.. figure:: image0_female.jpg
+    :align: center
+
+.. figure:: image1_male.jpg
+    :align: center
+
+.. figure:: image2_male.jpg
+    :align: center
+
+.. figure:: image3_female.jpg
+    :align: center
