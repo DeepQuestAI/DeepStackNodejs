@@ -83,17 +83,28 @@ Below we shall run DeepStack with only the FACE features enabled ::
 
 Below we will register the faces with their names ::
     
-    import requests
+    const request = require("request")
+    const fs = require("fs")
 
-    tom_cruise = open("cruise.jpg","rb").read()
-    adele = open("adele.jpg","rb").read()
-    elba = open("elba.jpg","rb").read()
-    perri = open("perri.jpg","rb").read()
-    
-    requests.post("http://localhost:80/v1/vision/face/register",files={"image":tom_cruise}, data={"userid":"Tom Cruise"})
-    requests.post("http://localhost:80/v1/vision/face/register",files={"image":adele}, data={"userid":"Adele"})
-    requests.post("http://localhost:80/v1/vision/face/register",files={"image":elba}, data={"userid":"Idris Elba"})
-    requests.post("http://localhost:80/v1/vision/face/register",files={"image":perri}, data={"userid":"Christina Perri"})
+    run_prediction("cruise.jpg","Tom Cruise")
+    run_prediction("elba.jpg","Idris Elba")
+    run_prediction("perri.jpg","Christina Perri")
+    run_prediction("adele.jpg","Adele")
+
+    function run_prediction(image_path,userid){
+
+        image_stream = fs.createReadStream(image_path)
+
+        var form = {"image":image_stream,"userid":userid}
+
+        request.post({url:"http://localhost:80/v1/vision/face/register", formData:form},function(err,res,body){
+
+            response = JSON.parse(body)
+            console.log(response)
+
+        })
+
+    }
 
 Result ::
 
