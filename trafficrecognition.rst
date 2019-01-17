@@ -59,5 +59,5 @@ If using the GPU Version, run ::
 
 Result ::
 
-    { success: true, label: 'accident', confidence: 94.88776 }
+    { success: true, label: 'accident', confidence: 0.9488776 }
 

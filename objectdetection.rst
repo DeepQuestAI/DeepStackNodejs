@@ -59,19 +59,19 @@ Result ::
     dog
     { success: true,
     predictions: 
-    [ { confidence: 99,
+    [ { confidence: 0.9999949,
        label: 'person',
        y_min: 89,
        x_min: 297,
        y_max: 513,
        x_max: 444 },
-     { confidence: 99,
+     { confidence: 0.99987614,
        label: 'person',
        y_min: 114,
        x_min: 443,
        y_max: 516,
        x_max: 598 },
-     { confidence: 99,
+     { confidence: 0.99875224,
        label: 'dog',
        y_min: 354,
        x_min: 640,
@@ -128,6 +128,32 @@ Result
 
 .. figure:: image2_person.jpg
     :align: center
+
+
+**Setting Confidence Levels**
+
+By default, all objects with a confidence of 0.4 and above are detected. However, you can adjust the confidence level using the
+*min_confidence* parameter.
+
+Example ::
+
+    const request = require("request")
+    const fs = require("fs")
+    const easyimage = require("easyimage")
+
+    image_stream = fs.createReadStream("test-image3.jpg")
+
+    var form = {"image":image_stream,"min_confidence":0.60}
+
+    request.post({url:"http://localhost:80/v1/vision/detection", formData:form},function(err,res,body){
+
+        response = JSON.parse(body)
+
+    })
+    
+
+In the above, only objects with 60% probability will be detected. If the confidence level is too high, many objects may not be detected,
+if it is too low, it might detect objects that are not present.
 
 
 **CLASSES**
