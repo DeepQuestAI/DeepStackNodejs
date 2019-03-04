@@ -59,19 +59,19 @@ Result ::
     dog
     { success: true,
     predictions: 
-    [ { confidence: 0.9999949,
+    [ { confidence: 99,
        label: 'person',
        y_min: 89,
        x_min: 297,
        y_max: 513,
        x_max: 444 },
-     { confidence: 0.99987614,
+     { confidence: 99,
        label: 'person',
        y_min: 114,
        x_min: 443,
        y_max: 516,
        x_max: 598 },
-     { confidence: 0.99875224,
+     { confidence: 99,
        label: 'dog',
        y_min: 354,
        x_min: 640,
@@ -129,31 +129,47 @@ Result
 .. figure:: image2_person.jpg
     :align: center
 
+**Performance**
 
-**Setting Confidence Levels**
+DeepStack offers three modes allowing you to tradeoff speed for peformance. 
+During startup, you can specify performance mode to be , **"High" , "Medium" and "Low"**
 
-By default, all objects with a confidence of 0.4 and above are detected. However, you can adjust the confidence level using the
-*min_confidence* parameter.
+The default mode is "Medium"
+
+You can speciy a different mode as seen below ::
+
+    sudo docker run -e MODE=High -e VISION-FACE=True -v localstorage:/datastore \
+    -p 80:5000 deepquestai/deepstack
+
+Note the -**e MODE=High** above 
+
+
+**Setting Minimum Confidence**
+
+By default, the minimum confidence for detecting objects is 0.45. The confidence ranges between 0 and 1.
+If the confidence level for an object falls below the min_confidence, no object is detected.
+
+The min_confidence parameter allows you to increase or reduce the minimum confidence.
+
+We lower the confidence allowed below.
 
 Example ::
 
     const request = require("request")
     const fs = require("fs")
-    const easyimage = require("easyimage")
 
     image_stream = fs.createReadStream("test-image3.jpg")
 
-    var form = {"image":image_stream,"min_confidence":0.60}
+    var form = {"image":image_stream, "min_confidence":0.30}
 
     request.post({url:"http://localhost:80/v1/vision/detection", formData:form},function(err,res,body){
 
         response = JSON.parse(body)
-
+        predictions = response["predictions"]
+        
+        console.log(response)
     })
-    
 
-In the above, only objects with 60% probability will be detected. If the confidence level is too high, many objects may not be detected,
-if it is too low, it might detect objects that are not present.
 
 
 **CLASSES**

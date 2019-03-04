@@ -7,29 +7,14 @@ Getting Started with DeepStack
 ===============================
 
 DeepStack is distributed as a docker image. In this tutorial, we shall 
-go through the complete process of setting up docker and DeepStack and using it
+go through the complete process of using DeepStack
 to build a Face Recognition system.
 
-**Setting Up Docker** 
+Setting Up DeepStack
+---------------------
 
-Docker is a container platform that allows developers to distribute applications
-as self-contained packages that ships every dependency from the
-operating system to the app dependences. It is similar to virtual machines
-but is more lightweight and easier to manage. 
-
-You can learn more about Docker on `Docker's Website <https://docker.io />`_
-Visit  `Docker Getting Started <https://docs.docker.com/get-started />`_ for instructions on setting up and using Docker for the first time.
-
-**Installing DeepStack**
-
-DeepStack is an AI Server that provides AI features as APIs consumable via basic web requests.
-It works entirely offline and can be installed anywhere docker runs both on premise and in the cloud.
-
-DeepStack is developed and maintained by `DeepQuest AI <https://deepquestai.com />`_
-
-Run the command below to install DeepStack ::
-    
-    docker pull deepquestai/deepstack
+Follow instructions on read :ref:`home` to install the CPU Version of DeepStack
+If you have a system with Nvidia GPU, follow instruction on read :ref:`gpuinstall` to install the GPU Version of DeepStack
 
 To install the GPU Accelerated Version, follow :ref:`gpuinstall`
 
@@ -83,28 +68,17 @@ Below we shall run DeepStack with only the FACE features enabled ::
 
 Below we will register the faces with their names ::
     
-    const request = require("request")
-    const fs = require("fs")
+    import requests
 
-    run_prediction("cruise.jpg","Tom Cruise")
-    run_prediction("elba.jpg","Idris Elba")
-    run_prediction("perri.jpg","Christina Perri")
-    run_prediction("adele.jpg","Adele")
-
-    function run_prediction(image_path,userid){
-
-        image_stream = fs.createReadStream(image_path)
-
-        var form = {"image":image_stream,"userid":userid}
-
-        request.post({url:"http://localhost:80/v1/vision/face/register", formData:form},function(err,res,body){
-
-            response = JSON.parse(body)
-            console.log(response)
-
-        })
-
-    }
+    tom_cruise = open("cruise.jpg","rb").read()
+    adele = open("adele.jpg","rb").read()
+    elba = open("elba.jpg","rb").read()
+    perri = open("perri.jpg","rb").read()
+    
+    requests.post("http://localhost:80/v1/vision/face/register",files={"image":tom_cruise}, data={"userid":"Tom Cruise"})
+    requests.post("http://localhost:80/v1/vision/face/register",files={"image":adele}, data={"userid":"Adele"})
+    requests.post("http://localhost:80/v1/vision/face/register",files={"image":elba}, data={"userid":"Idris Elba"})
+    requests.post("http://localhost:80/v1/vision/face/register",files={"image":perri}, data={"userid":"Christina Perri"})
 
 Result ::
 
@@ -157,3 +131,16 @@ We have just created a face recognition system. You can try with different peopl
 
 The next tutorial is dedicated to the full power of the face recognition api as well as best practices to make the best out of it.
 
+**Performance**
+
+DeepStack offers three modes allowing you to tradeoff speed for peformance. 
+During startup, you can specify performance mode to be , "High","Medium" and "Low"
+
+The default mode is "Medium"
+
+You can speciy a different mode as seen below ::
+
+    sudo docker run -e MODE=High -e VISION-FACE=True -v localstorage:/datastore \
+    -p 80:5000 deepquestai/deepstack
+
+Note the -**e MODE=High** above 

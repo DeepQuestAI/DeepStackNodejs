@@ -92,22 +92,23 @@ We shall test this on the image below.
 
 Result ::
 
-    unknown
     Idris Elba
+    unknown
     { success: true,
-    predictions: 
-    [ { confidence: 0,
-       userid: 'unknown',
-       y_min: 233,
-       x_min: 850,
-       y_max: 827,
-       x_max: 1290 },
-     { confidence: 0.6676926,
-       userid: 'Idris Elba',
-       y_min: 160,
-       x_min: 1577,
-       y_max: 767,
-       x_max: 2041 } ] }
+    predictions:
+        [ { confidence: 0.76965684,
+            userid: 'Idris Elba',
+            y_min: 154,
+            x_min: 1615,
+            y_max: 682,
+            x_max: 1983 },
+           { confidence: 0,
+             userid: 'unknown',
+            y_min: 237,
+            x_min: 869,
+            y_max: 732,
+            x_max: 1214 } ] }
+
 
 As you can see above, the first user is unknown since we did not previously register her, however, Idris Elba was detected as we
 registered a picture of his in the previous tutorial.
@@ -165,7 +166,7 @@ Result
 **Setting Minimum Confidence**
 
 DeepStack recognizes faces by computing the similarity between the embedding of a new face and the set of embeddings of previously registered faces.
-By default, the minimum confidence is 0.45. The confidence ranges between 0 and 1.
+By default, the minimum confidence is 0.67. The confidence ranges between 0 and 1.
 If the similarity for a new face falls below the min_confidence, unknown will be returned.
 
 The min_confidence parameter allows you to increase or reduce the minimum confidence.
@@ -200,10 +201,7 @@ By reducing the allowed confidence, the system detects the first face as Adele. 
 for the system to make mistakes. When the confidence level is high, mistakes are extremely rare, however, the system may 
 return unknown always if the confidence is too high.
 
-**For security related processes such as authentication, set the min_confidence at 0.5 or higher**
-
-
-
+**For security related processes such as authentication, set the min_confidence at 0.7 or higher**
 
 Managing Registered Faces
 --------------------------

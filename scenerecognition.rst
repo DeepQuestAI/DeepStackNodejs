@@ -47,6 +47,6 @@ If using the GPU Version, run ::
 
 Result ::
 
-    { success: true, label: 'conference_room', confidence: 0.73739815 }
+    { success: true, label: 'conference_room', confidence: 73.739815 }
 
 
